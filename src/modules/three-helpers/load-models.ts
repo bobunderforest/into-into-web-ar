@@ -23,7 +23,7 @@ export const loadModels = async ({ markerScene, threeContext }: Args) => {
   // Kastet
   const kastet = await loadGLTF(
     threeContext,
-    `${BASE_URL}/models/Test_Animated_web.gltf?t=${Date.now()}`,
+    `${BASE_URL}models/Test_Animated_web.gltf?t=${Date.now()}`,
   )
   kastet.scene.traverse((child: any) => {
     if (child.isMesh && child.material.isMeshStandardMaterial) {

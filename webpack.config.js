@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const PugPlugin = require('pug-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
-const BASE_URL = process.env.BASE_URL
+const BASE_URL = String(process.env.BASE_URL)
 
 module.exports = {
   resolve: {
@@ -19,7 +19,7 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.BASE_URL': BASE_URL,
+      'process.env.BASE_URL': JSON.stringify(BASE_URL),
     }),
     new PugPlugin({
       hotUpdate: true,
