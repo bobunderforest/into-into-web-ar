@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "noImplicitAny": false,
+    "baseUrl": "src",
+    "module": "commonjs",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es2015"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,7 @@
+script.
+  function setViewportHeight() {
+    const windowHeight = window.innerHeight;
+    document.documentElement.style.setProperty('--viewport-height', `${windowHeight}px`);
+  }
+  setViewportHeight();
+  window.addEventListener('resize', setViewportHeight);

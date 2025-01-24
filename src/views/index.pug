@@ -1,0 +1,11 @@
+include /src/ui/index.pug
+
+html(lang="en")
+  head
+    include /src/ui/document/head.pug
+    include /src/ui/document/window-height-script.pug
+
+  body
+    .canvas-wrapper
+      canvas#ar-canvas
+    script(defer src="../modules/index-arjs.ts")
