@@ -1,6 +1,7 @@
 import type * as THREE from 'three'
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import { THREEContext } from './three-deps-context'
+import { BASE_URL } from 'modules/config'
 
 type Args = {
   threeContext: THREEContext
@@ -22,7 +23,7 @@ export const loadModels = async ({ markerScene, threeContext }: Args) => {
   // Kastet
   const kastet = await loadGLTF(
     threeContext,
-    `/models/Test_Animated_web.gltf?t=${Date.now()}`,
+    `${BASE_URL}/models/Test_Animated_web.gltf?t=${Date.now()}`,
   )
   kastet.scene.traverse((child: any) => {
     if (child.isMesh && child.material.isMeshStandardMaterial) {
