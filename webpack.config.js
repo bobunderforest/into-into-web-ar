@@ -1,6 +1,6 @@
 const path = require('path')
 require('dotenv').config()
-const Dotenv = require('dotenv-webpack')
+const webpack = require('webpack')
 const PugPlugin = require('pug-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
@@ -18,7 +18,9 @@ module.exports = {
   },
 
   plugins: [
-    new Dotenv(),
+    new webpack.DefinePlugin({
+      'process.env.BASE_URL': BASE_URL,
+    }),
     new PugPlugin({
       hotUpdate: true,
       entry: 'src/views/',
