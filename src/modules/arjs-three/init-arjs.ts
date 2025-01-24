@@ -9,8 +9,7 @@ import { initGestures } from 'modules/arjs-three/init-gestures'
 import { deactivatePinchZoom } from 'modules/utils/deactivate-pinch-zoom'
 import { arjsDepsContext } from './arjs-deps-context'
 import { startRendering } from './start-rendering'
-
-const BASE_URL = './'
+import { BASE_URL } from 'modules/config'
 
 export const initAR = async () => {
   const context = arjsDepsContext
