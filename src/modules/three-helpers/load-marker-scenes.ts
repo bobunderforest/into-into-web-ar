@@ -20,9 +20,9 @@ export const loadMarkerSceneKastet = async ({
 
   const gltf = await loadGLTF(
     threeContext,
-    `${BASE_URL}models/kastet_1.gltf?t=${Date.now()}`,
+    `${BASE_URL}models/Test_Animated_web.gltf?t=${Date.now()}`,
   )
-  gltf.scene.scale.multiply(new THREE.Vector3(0.015, 0.015, 0.015))
+  gltf.scene.scale.multiply(new THREE.Vector3(3, 3, 3))
   markerScene.add(gltf.scene)
 
   const mixer = new THREE.AnimationMixer(gltf.scene)
@@ -53,9 +53,9 @@ export const loadMarkerSceneGirl = async ({
 
   const gltf = await loadGLTF(
     threeContext,
-    `${BASE_URL}models/GIRL 4.gltf?t=${Date.now()}`,
+    `${BASE_URL}models/Test_Animated_web.gltf?t=${Date.now()}`,
   )
-  gltf.scene.scale.multiply(new THREE.Vector3(1, 1, 1))
+  gltf.scene.scale.multiply(new THREE.Vector3(2, 2, 2))
   markerScene.add(gltf.scene)
 
   const mixer = new THREE.AnimationMixer(gltf.scene)
