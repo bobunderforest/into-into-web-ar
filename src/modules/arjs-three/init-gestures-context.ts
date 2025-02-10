@@ -1,9 +1,9 @@
 import { GestureHandler, GestureManager } from 'modules/ar-gestures'
 import { ARJSContext } from './types'
 
-export const initGestures = (context: ARJSContext) => {
+export const initGesturesContext = (context: ARJSContext) => {
   const THREE = context.get('threeContext').get('THREE')
-  const object = context.get('modelKastet')
+  const object = context.get('threeMarkerScenes')[0].gltf.scene
 
   const gestureManager = new GestureManager(THREE, document.documentElement)
   const gestureHandler = new GestureHandler(THREE, object, gestureManager, {

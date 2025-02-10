@@ -12,6 +12,7 @@ export const initThree = (THREEx: typeof THREE) => {
     canvas: document.querySelector('#ar-canvas')!,
   })
 
+  // renderer.toneMapping = THREEx.ReinhardToneMapping
   renderer.setClearColor(new THREEx.Color('lightgrey'), 0)
   renderer.setPixelRatio(pixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -25,18 +26,9 @@ export const initThree = (THREEx: typeof THREE) => {
   const camera = new THREEx.Camera()
   scene.add(camera)
 
-  // Create a marker
-  const markerGroup = new THREEx.Group()
-  scene.add(markerGroup)
-
-  const markerScene = new THREEx.Scene()
-  markerGroup.add(markerScene)
-
   return {
     renderer,
     scene,
     camera,
-    markerGroup,
-    markerScene,
   }
 }

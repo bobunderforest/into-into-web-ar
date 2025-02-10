@@ -1,7 +1,7 @@
 import { RAFRenderer } from 'modules/utils/raf-renderer'
 import { initThree } from 'modules/three-helpers/init-three'
 import { initThreeLight } from 'modules/three-helpers/init-three-light'
-import { loadModels } from 'modules/three-helpers/load-models'
+import { markerSceneLoaders } from 'modules/three-helpers/load-marker-scenes'
 
 import type { ARJSContext } from './types'
 
@@ -10,26 +10,38 @@ export const initThreeContext = async (context: ARJSContext) => {
   const THREE = threeContext.get('THREE')
 
   const rafRenderer = new RAFRenderer()
-  const { renderer, scene, camera, markerGroup, markerScene } = initThree(THREE)
-  const { renderModels, kastet } = await loadModels({
-    markerScene,
-    threeContext,
-  })
+  const { renderer, scene, camera } = initThree(THREE)
 
-  const { renderLight } = initThreeLight(THREE, {
-    markerScene,
-  })
+  const threeMarkerScenes = await Promise.all(
+    context.get('config').controlConfig.map((_, i) =>
+      (async () => {
+        const markerGroup = new THREE.Group()
+        scene.add(markerGroup)
 
-  console.log(camera)
+        const markerScene = new THREE.Scene()
+        markerGroup.add(markerScene)
+
+        const markerSceneLoaded = await markerSceneLoaders[i]({
+          markerScene,
+          threeContext,
+        })
+
+        return {
+          ...markerSceneLoaded,
+          group: markerGroup,
+          scene: markerScene,
+        }
+      })(),
+    ),
+  )
+
+  const { renderLight } = initThreeLight(THREE, { scene })
+
   context.register('threeCamera', camera)
   context.register('threeRenderer', renderer)
   context.register('threeScene', scene)
-  context.register('threeMarkerScene', markerScene)
-  context.register('threeMarkerGroup', markerGroup)
-
-  context.register('modelKastet', kastet.scene)
+  context.register('threeMarkerScenes', threeMarkerScenes)
 
   context.register('rafRenderer', rafRenderer)
-  context.register('renderModels', renderModels)
   context.register('renderLight', renderLight)
 }

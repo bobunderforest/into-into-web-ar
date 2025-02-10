@@ -8,21 +8,25 @@ import {
 export const initARJSToolkitContext = async (context: ARJSContext) => {
   const config = context.get('config')
   const camera = context.get('threeCamera')
-  const markerGroup = context.get('threeMarkerGroup')
+  const threeMarkerScenes = context.get('threeMarkerScenes')
 
   const arSource = await initARSource({ config })
+
   const arContext = await initARContext({
     config,
     camera,
     arSource,
   })
-  const arMarkerControls = initARMarkerControls({
-    arContext,
-    markerGroup,
-    config,
-  })
+
+  const arMarkerControls = config.controlConfig.map((controlConfig, i) =>
+    initARMarkerControls({
+      arContext,
+      markerGroup: threeMarkerScenes[i].group,
+      config: controlConfig,
+    }),
+  )
 
   context.register('arSource', arSource)
   context.register('arContext', arContext)
-  context.register('arControl', arMarkerControls)
+  context.register('arControls', arMarkerControls)
 }

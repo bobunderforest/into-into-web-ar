@@ -2,22 +2,22 @@ import type * as THREE from 'three'
 import { generateSphereCoordinates } from './generate-sphere-coordinates'
 
 type Args = {
-  markerScene: THREE.Scene
+  scene: THREE.Scene
 }
 
-export const initThreeLight = (THREEx: typeof THREE, { markerScene }: Args) => {
-  const ambientLight = new THREEx.AmbientLight(0xee99aa, 25.5)
-  markerScene.add(ambientLight)
+export const initThreeLight = (THREEx: typeof THREE, { scene }: Args) => {
+  const ambientLight = new THREEx.AmbientLight(0xee99aa, 1.5)
+  scene.add(ambientLight)
 
   const sphereCoordinates = generateSphereCoordinates(35, 3)
   for (let i = 0; i < sphereCoordinates.length; i++) {
-    const pointLight = new THREEx.PointLight(0xee99aa, 35, 155)
+    const pointLight = new THREEx.PointLight(0xffffff, 565, 155)
     pointLight.position.set(...sphereCoordinates[i])
-    markerScene.add(pointLight)
+    scene.add(pointLight)
   }
 
-  const light = new THREEx.HemisphereLight(0xb1e1ff, 0xb97a20, 150)
-  markerScene.add(light)
+  // const light = new THREEx.HemisphereLight(0xffffff, 0xffffff, 150)
+  // scene.add(light)
 
   const renderLight = () => {}
 

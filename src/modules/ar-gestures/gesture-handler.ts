@@ -85,7 +85,6 @@ export class GestureHandler {
 
   handleRotation = (event) => {
     if (!this.isVisible) return
-    console.log(event)
 
     const detail = event.detail
     this.object3D.rotation.y +=

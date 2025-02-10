@@ -1,0 +1,35 @@
+.recorder-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--viewport-height);
+}
+
+.recorder-button {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  background-color: red;
+  border-radius: 50%;
+  transition: border-radius ease 0.2s;
+  cursor: pointer;
+
+  &.is-active {
+    border-radius: 4px;
+  }
+}
+
+.screenshot-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  cursor: pointer;
+
+}

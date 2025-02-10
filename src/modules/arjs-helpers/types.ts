@@ -36,5 +36,5 @@ export type ARJSConfigType = {
   doOrientation: boolean
   sourceConfig: ARJSSourceConfig
   contextConfig: ARJSContextConfig
-  controlConfig: ARJSControlConfig
+  controlConfig: ARJSControlConfig[]
 }

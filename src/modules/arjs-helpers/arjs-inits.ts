@@ -7,7 +7,7 @@ import {
   ArMarkerControls,
 } from './arjs-endpoint'
 import { getSourceOrientation } from './get-source-orientation'
-import type { ARJSConfigType } from './types'
+import type { ARJSConfigType, ARJSControlConfig } from './types'
 
 /**
  * AR Toolkit Source
@@ -66,19 +66,14 @@ export const initARContext = ({ config, camera, arSource }: ARContextArgs) =>
 type ARMarkerControlArgs = {
   arContext: ArToolkitContext
   markerGroup: THREE.Group
-  config: ARJSConfigType
+  config: ARJSControlConfig
 }
 export const initARMarkerControls = ({
   arContext,
   markerGroup,
   config,
 }: ARMarkerControlArgs) => {
-  const arMarkerControls = new ArMarkerControls(
-    arContext,
-    markerGroup,
-    config.controlConfig,
-  )
-
+  const arMarkerControls = new ArMarkerControls(arContext, markerGroup, config)
   console.info('[ArMarkerControls]', arMarkerControls)
   return arMarkerControls
 }

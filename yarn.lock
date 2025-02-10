@@ -446,6 +446,18 @@
     fflate "~0.8.2"
     meshoptimizer "~0.18.1"
 
+"@types/w3c-image-capture@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@types/w3c-image-capture/-/w3c-image-capture-1.0.10.tgz#561eda78b438a29f52e1c3bc53070288f7787130"
+  integrity sha512-7DR36sb0os7qVy2HI9wW6BV9oFjZVA8xnKM0cZGdL5XKa6ZgurA+U8T8xUNccERiWkvk641bAItMWCU++1B7jg==
+  dependencies:
+    "@types/webrtc" "*"
+
+"@types/webrtc@*":
+  version "0.0.44"
+  resolved "https://registry.yarnpkg.com/@types/webrtc/-/webrtc-0.0.44.tgz#62b61ff391b5ded124861eaaeefa9433fc6ae9b4"
+  integrity sha512-4BJZdzrApNFeuXgucyqs24k69f7oti3wUcGEbFbaV08QBh7yEe3tnRRuYXlyXJNXiumpZujiZqUZZ2/gMSeO0g==
+
 "@types/webxr@*":
   version "0.5.21"
   resolved "https://registry.yarnpkg.com/@types/webxr/-/webxr-0.5.21.tgz#2e25353af14c7569bcf082f2fb75921d2130db7e"
