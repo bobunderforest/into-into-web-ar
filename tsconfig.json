@@ -9,7 +9,8 @@
     "baseUrl": "src",
     "module": "commonjs",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "target": "es2015"
+    "target": "es2015",
+    "jsx": "react-jsx"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
