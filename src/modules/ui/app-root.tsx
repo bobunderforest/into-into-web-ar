@@ -11,6 +11,8 @@ import { ARJSContextConfig, ARJSSourceConfig } from 'modules/arjs-core/types'
 
 const sourceConfig: ARJSSourceConfig = {
   source: 'webcam',
+  sourceWidth: 1440,
+  sourceHeight: 1080,
 }
 
 const contextConfig: ARJSContextConfig = {
@@ -19,6 +21,9 @@ const contextConfig: ARJSContextConfig = {
   detectionMode: 'mono_and_matrix',
   matrixCodeType: '3x3',
   imageSmoothingEnabled: true,
+  // labelingMode: 'white_region',
+  // canvasWidth: 640,
+  // canvasHeight: 480,
 }
 
 const eventManagerFactory = (state) => ({
@@ -54,6 +59,7 @@ export function AppRoot({ children }: Props) {
       dpr={window.devicePixelRatio || 1}
       events={eventManagerFactory}
       camera={{ position: [0, 0, 0] }}
+      className="threejs-canvas-wrapper"
       // onCreated={({ gl }) => {
       //   gl.setSize(window.innerWidth, window.innerHeight)
       // }}

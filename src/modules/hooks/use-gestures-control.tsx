@@ -10,5 +10,9 @@ export const useGesturesControl = (object: THREE.Object3D) => {
       minScale: 0.3,
       maxScale: 8,
     })
+    return () => {
+      gestureHandler.disable()
+      gestureManager.dispose()
+    }
   }, [])
 }

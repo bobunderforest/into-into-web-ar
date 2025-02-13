@@ -12,7 +12,7 @@ export type ARJSContextConfig = {
   detectionMode?: 'mono' | 'mono_and_matrix' | 'color' | 'color_and_matrix'
   matrixCodeType?: string
   patternRatio?: number
-  labelingMode?: string
+  labelingMode?: 'black_region' | 'white_region'
   cameraParametersUrl: string
   maxDetectionRate?: number
   canvasWidth?: number

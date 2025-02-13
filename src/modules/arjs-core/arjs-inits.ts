@@ -54,16 +54,10 @@ export const initAROrientation = (
   arSource: ArToolkitSource,
   arContext: ArToolkitContext,
 ) => {
-  // TODO: check this approach
-  //   if (video.videoWidth > video.videoHeight) {
-  //     arContext.arController.orientation = 'landscape'
-  //     arContext.arController.options.orientation = 'landscape'
-  //   } else {
-  //     arContext.arController.orientation = 'portrait'
-  //     arContext.arController.options.orientation = 'portrait'
-  //   }
   const { videoWidth, videoHeight } = arSource.domElement
   const sourceOrientation = videoWidth > videoHeight ? 'landscape' : 'portrait'
+  arContext.arController.orientation = sourceOrientation
+  arContext.arController.options.orientation = sourceOrientation
 
   console.info(
     '[source orientation]',
@@ -71,9 +65,6 @@ export const initAROrientation = (
     videoWidth,
     videoHeight,
   )
-
-  arContext.arController.orientation = sourceOrientation
-  arContext.arController.options.orientation = sourceOrientation
 }
 
 /**
