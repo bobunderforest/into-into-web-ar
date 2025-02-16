@@ -42,10 +42,11 @@ export const ARMarker = memo(
     patternUrl,
     barcodeValue,
     changeMatrixMode,
-    smooth = false,
-    smoothCount = 1,
-    smoothThreshold = 0.001,
-    smoothTolerance = 0.5,
+    smooth = true,
+    // smooth = false,
+    smoothCount = 4,
+    smoothThreshold = 0.01,
+    smoothTolerance = 0.006,
   }: Props) => {
     const markerRoot = useRef<Group>(null)
     const { arContext } = useAR()
