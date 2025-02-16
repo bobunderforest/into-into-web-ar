@@ -49,10 +49,13 @@ export function AppRoot({ children }: Props) {
 
   return (
     <Canvas
+      shadows={'soft'}
       gl={{
         alpha: true,
         antialias: true,
         powerPreference: 'default',
+        localClippingEnabled: true,
+
         // renderer.setClearColor(new THREEx.Color('lightgrey'), 0)
         // physicallyCorrectLights: true,
       }}

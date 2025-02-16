@@ -1,6 +1,6 @@
 import { generateSphereCoordinates } from 'modules/utils/generate-sphere-coordinates'
 
-const sphereCoordinates = generateSphereCoordinates(35, 3)
+const sphereCoordinates = generateSphereCoordinates(20, 3)
 
 export function SceneLight() {
   return (
