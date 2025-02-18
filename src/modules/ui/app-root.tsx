@@ -48,28 +48,27 @@ export function AppRoot({ children }: Props) {
   }, [])
 
   return (
-    <Canvas
-      shadows={'soft'}
-      gl={{
-        alpha: true,
-        antialias: true,
-        powerPreference: 'default',
-        localClippingEnabled: true,
-
-        // renderer.setClearColor(new THREEx.Color('lightgrey'), 0)
-        // physicallyCorrectLights: true,
-      }}
-      dpr={window.devicePixelRatio || 1}
-      events={eventManagerFactory}
-      camera={{ position: [0, 0, 0] }}
-      className="threejs-canvas-wrapper"
-      // onCreated={({ gl }) => {
-      //   gl.setSize(window.innerWidth, window.innerHeight)
-      // }}
-    >
-      <ARProvider configSource={sourceConfig} configContext={contextConfig}>
-        {children}
-      </ARProvider>
-    </Canvas>
+    <div className="threejs-canvas-wrapper-outside">
+      <Canvas
+        shadows={'soft'}
+        gl={{
+          alpha: true,
+          antialias: true,
+          powerPreference: 'default',
+          localClippingEnabled: true,
+          preserveDrawingBuffer: true,
+          logarithmicDepthBuffer: true,
+          precision: 'highp',
+        }}
+        // events={eventManagerFactory}
+        dpr={window.devicePixelRatio || 1}
+        camera={{ position: [0, 0, 0] }}
+        className="threejs-canvas-wrapper"
+      >
+        <ARProvider configSource={sourceConfig} configContext={contextConfig}>
+          {children}
+        </ARProvider>
+      </Canvas>
+    </div>
   )
 }

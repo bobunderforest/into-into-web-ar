@@ -105,13 +105,19 @@ export const initResizer = ({
   const setSize = () => {
     console.info('[AR Resize]')
     arSource.onResizeElement()
-    arSource.copyElementSizeTo(renderer.domElement)
+    const renderElement = document.querySelector(
+      '.threejs-canvas-wrapper-outside',
+    )! as any
+    arSource.copyElementSizeTo(renderElement)
     if (arContext.arController !== null) {
       arSource.copyElementSizeTo(arContext.arController.canvas)
       camera.projectionMatrix.copy(arContext.getProjectionMatrix())
     }
   }
   setSize()
+  setTimeout(() => {
+    setSize()
+  }, 100)
   window.addEventListener('resize', setSize)
   return () => {
     window.removeEventListener('resize', setSize)

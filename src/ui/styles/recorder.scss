@@ -2,36 +2,77 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: var(--viewport-height);
   z-index: -1;
+  z-index: -99;
 }
 
 .recorder-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 35px;
   left: 50%;
-  width: 40px;
-  height: 40px;
-  margin-left: -20px;
-  background-color: red;
-  border-radius: 50%;
-  transition: border-radius ease 0.2s;
+  width: 66px;
+  height: 66px;
+  margin-left: -33px;
   cursor: pointer;
   z-index: 99;
 
-  &.is-active {
-    border-radius: 4px;
+  &__border,
+  &__inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+  }
+
+  &__border {
+    width: 66px;
+    height: 66px;
+    margin-top: -33px;
+    margin-left: -33px;
+    border: 1px solid #fff;
+    transition: border-radius ease 0.2s;
+  }
+
+  &__inner {
+    margin-top: -24px;
+    margin-left: -24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: red;
+    transition: border-radius ease 0.2s, transform ease 0.2s;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+  }
+
+  &.is-active &__border {
+    border-radius: 17px;
+  }
+
+  &.is-active &__inner {
+    border-radius: 10px;
+    transform: scale(0.55);
   }
 }
 
 .screenshot-button {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 40px;
-  height: 40px;
-  background-color: white;
+  left: 48px;
+  bottom: 53px;
+  width: 31x;
+  height: 31x;
   cursor: pointer;
   z-index: 99;
+  transition: transform ease 0.1s;
+
+  svg {
+    display: block;
+  }
+
+  &:active {
+    transform: scale(1.14);
+  }
 }

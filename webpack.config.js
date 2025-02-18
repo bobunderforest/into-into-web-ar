@@ -9,7 +9,7 @@ const BASE_URL = String(process.env.BASE_URL)
 module.exports = {
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.svg'],
   },
 
   output: {
@@ -44,7 +44,7 @@ module.exports = {
         use: ['css-loader', 'sass-loader'],
       },
       {
-        test: /\.(ico|png|jpe?g|webp|svg)$/,
+        test: /\.(ico|png|jpe?g|webp)$/,
         type: 'asset/resource',
         generator: {
           filename: 'img/[name].[hash:8][ext][query]',
@@ -54,6 +54,15 @@ module.exports = {
         test: /\.([cm]?ts|tsx)$/,
         loader: 'ts-loader',
       },
+      {
+        test: /\.svg(\?.*)?$/,
+        use: {
+          loader: 'svg-react-loader',
+          options: {
+            classIdPrefix: '[hash:8]__',
+          },
+        },
+      }
     ],
   },
 

@@ -40,29 +40,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.app-wrapper,
-.canvas-wrapper {
+.threejs-canvas-wrapper-outside {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: var(--viewport-height);
-  overflow: hidden;
-}
-
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--viewport-height);
-}
-
-video, canvas {
-  position: fixed !important;
-  width: 100vw;
-  height: var(--viewport-height);
-  pointer-events: none;
 }
 
 button {

@@ -1,5 +1,5 @@
 import cns from 'classnames'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useAR } from 'modules/arjs-react/ar-context'
 import { CanvasRecorder } from 'modules/utils/canvas-recorder'
@@ -10,28 +10,25 @@ type Sizes = {
   width: number
   height: number
   dpr: number
-  offset: ReturnType<typeof calcCoverOffset>
+  offsetVideo: ReturnType<typeof calcCoverOffset>
+  offsetRender: ReturnType<typeof calcCoverOffset>
 }
 
 export function CanvasRecorderComponent() {
   const { gl: renderer } = useThree()
-  const { arSource } = useAR()
+  const { arSource, arContext } = useAR()
 
-  const [sizes, setSizes] = useState<Sizes | null>(null)
-  const [isRecording, setRecording] = useState(false)
-  const [takeScreenshot, setScreenshot] = useState(false)
-  const [canvasRecorder, setCanvasRecorder] = useState<CanvasRecorder | null>(
-    null,
-  )
-  const [resultCanvas, setResultCanvas] = useState<HTMLCanvasElement | null>(
-    null,
-  )
-  const [resultCtx, setResultCtx] = useState<CanvasRenderingContext2D | null>(
-    null,
-  )
+  const state = useRef({
+    sizes: null as null | Sizes,
+    takeScreenshot: false,
+    canvasRecorder: null as null | CanvasRecorder,
+    resultCanvas: null as null | HTMLCanvasElement,
+    resultCtx: null as null | CanvasRenderingContext2D,
+  })
 
   useEffect(() => {
     const webcamVideo = arSource.domElement
+    const renderCanvas = renderer.domElement
 
     const resultCanvas = document.createElement('canvas')
     resultCanvas.classList.add('recorder-canvas')
@@ -40,36 +37,46 @@ export function CanvasRecorderComponent() {
 
     const canvasRecorder = new CanvasRecorder(resultCanvas)
 
-    setResultCanvas(resultCanvas)
-    setResultCtx(resultCtx)
-    setCanvasRecorder(canvasRecorder)
+    state.current.resultCanvas = resultCanvas
+    state.current.resultCtx = resultCtx
+    state.current.canvasRecorder = canvasRecorder
 
     // Calculate sizes
     const initSizes = () => {
+      // const dpr = window.devicePixelRatio || 1
+      const dpr = 1 // 1 for better video fps
       const width = window.innerWidth
       const height = window.innerHeight
+      resultCanvas.width = width * dpr
+      resultCanvas.height = height * dpr
+      resultCanvas.style.width = width + 'px'
+      resultCanvas.style.height = height + 'px'
 
       const sizes = {
+        dpr,
         width,
         height,
-        dpr: window.devicePixelRatio || 1,
-        offset: calcCoverOffset(
+        offsetVideo: calcCoverOffset(
           webcamVideo.videoWidth,
           webcamVideo.videoHeight,
           width,
           height,
         ),
+        offsetRender: calcCoverOffset(
+          renderCanvas.width,
+          renderCanvas.height,
+          width,
+          height,
+        ),
       }
 
-      resultCanvas.width = sizes.width * sizes.dpr
-      resultCanvas.height = sizes.height * sizes.dpr
-      resultCanvas.style.width = sizes.width + 'px'
-      resultCanvas.style.height = sizes.height + 'px'
-
-      setSizes(sizes)
+      state.current.sizes = sizes
     }
 
     initSizes()
+    setTimeout(() => {
+      initSizes()
+    }, 100)
     window.addEventListener('resize', () => {
       initSizes()
     })
@@ -77,20 +84,20 @@ export function CanvasRecorderComponent() {
 
   const clearResult = useCallback(() => {
     setTimeout(() => {
+      const { resultCtx, sizes } = state.current
       if (!resultCtx || !sizes) return
-      resultCtx.clearRect(
-        0,
-        0,
-        sizes.width * sizes.dpr,
-        sizes.height * sizes.dpr,
-      )
+      const { width, height, dpr } = sizes
+      resultCtx.clearRect(0, 0, width * dpr, height * dpr)
     }, 0)
-  }, [sizes, resultCtx])
+  }, [])
 
   useFrame((_, deltaTime) => {
+    const { takeScreenshot, canvasRecorder, resultCanvas, resultCtx, sizes } =
+      state.current
+
     if (
-      (!isRecording && !takeScreenshot) ||
       !canvasRecorder ||
+      (!canvasRecorder.isRecording && !takeScreenshot) ||
       !resultCanvas ||
       !resultCtx ||
       !sizes
@@ -100,37 +107,40 @@ export function CanvasRecorderComponent() {
 
     const webcamVideo = arSource.domElement
     const renderCanvas = renderer.domElement
-    const { width, height, dpr, offset } = sizes
+    const { width, height, dpr, offsetVideo, offsetRender } = sizes
 
     // Render video and canvas to a single canvas
-
-    resultCtx.clearRect(0, 0, width, height)
-
     resultCtx.save()
     resultCtx.scale(dpr, dpr)
+    resultCtx.clearRect(0, 0, width, height)
     resultCtx.drawImage(
       webcamVideo,
       0,
       0,
       webcamVideo.videoWidth,
       webcamVideo.videoHeight,
-      offset.marginLeft,
-      offset.marginTop,
-      offset.width,
-      offset.height,
+      offsetVideo.marginLeft,
+      offsetVideo.marginTop,
+      offsetVideo.width,
+      offsetVideo.height,
     )
 
     resultCtx.drawImage(
       renderCanvas,
       0,
       0,
-      window.innerWidth,
-      window.innerHeight,
+      renderCanvas.width,
+      renderCanvas.height,
+      offsetRender.marginLeft,
+      offsetRender.marginTop,
+      offsetRender.width,
+      offsetRender.height,
     )
+
     resultCtx.restore()
 
     if (takeScreenshot) {
-      setScreenshot(false)
+      state.current.takeScreenshot = false
       const data = resultCanvas.toDataURL('image/jpeg')
       clearResult()
       const a = document.createElement('a')
@@ -146,19 +156,18 @@ export function CanvasRecorderComponent() {
   })
 
   const handleRecording = useCallback(() => {
+    const { canvasRecorder } = state.current
     if (!canvasRecorder) return
     if (canvasRecorder.isRecording) {
-      setRecording(false)
       canvasRecorder.stopRecording()
       clearResult()
     } else {
-      setRecording(true)
       canvasRecorder.startRecording()
     }
-  }, [clearResult, canvasRecorder])
+  }, [clearResult])
 
   const handleScreenshot = useCallback(() => {
-    setScreenshot(true)
+    state.current.takeScreenshot = true
     /**
      * ImageCapture approach does not supported in safari
      */
@@ -182,7 +191,9 @@ export function CanvasRecorderComponent() {
   return (
     <Html>
       <div
-        className={cns('recorder-button', { 'is-active': isRecording })}
+        className={cns('recorder-button', {
+          'is-active': state.current.canvasRecorder?.isRecording,
+        })}
         onClick={handleRecording}
       />
       <div className={'screenshot-button'} onClick={handleScreenshot} />
