@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
@@ -16,6 +16,8 @@ type Props = {
 
 export function Kastet({ path }: Props) {
   const { isFound } = useARMarker()
+  const [isDisplayed, setDisplayed] = useState(isFound)
+  const resetTimeout = useRef(-1)
   const gltf = useGLTF(`${BASE_URL}models/${path}`)
 
   const [mixer, animationAction] = useMemo(() => {
@@ -28,11 +30,20 @@ export function Kastet({ path }: Props) {
   }, [gltf])
 
   useEffect(() => {
+    if (resetTimeout.current !== -1) {
+      clearTimeout(resetTimeout.current)
+    }
     if (isFound) {
+      setDisplayed(true)
       animationAction.play()
     } else {
-      animationAction.stop()
-      animationAction.reset()
+      const timeout = setTimeout(() => {
+        setDisplayed(false)
+        animationAction.stop()
+        animationAction.reset()
+        resetTimeout.current = -1
+      }, 1000) as any as number
+      resetTimeout.current = timeout
     }
   }, [isFound])
 
@@ -64,7 +75,7 @@ export function Kastet({ path }: Props) {
   return (
     <>
       <axesHelper />
-      {isFound && <GesturesControl object={gltf.scene} />}
+      {isDisplayed && <GesturesControl object={gltf.scene} />}
 
       <group rotation={[-deg2rad(25), 0, 0]} position={[0, 2, 0]}>
         <mesh castShadow>
