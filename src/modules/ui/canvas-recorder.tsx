@@ -5,6 +5,7 @@ import { useAR } from 'modules/arjs-react/ar-context'
 import { CanvasRecorder } from 'modules/utils/canvas-recorder'
 import { calcCoverOffset } from 'modules/utils/calc-cover-offset'
 import { Html } from '@react-three/drei'
+import ScreenButtonSVG from 'assets/screen-button.svg'
 
 type Sizes = {
   width: number
@@ -16,7 +17,8 @@ type Sizes = {
 
 export function CanvasRecorderComponent() {
   const { gl: renderer } = useThree()
-  const { arSource, arContext } = useAR()
+  const { arSource } = useAR()
+  const [isRecording, setRecording] = useState(false)
 
   const state = useRef({
     sizes: null as null | Sizes,
@@ -161,8 +163,10 @@ export function CanvasRecorderComponent() {
     if (canvasRecorder.isRecording) {
       canvasRecorder.stopRecording()
       clearResult()
+      setRecording(false)
     } else {
       canvasRecorder.startRecording()
+      setRecording(true)
     }
   }, [clearResult])
 
@@ -192,11 +196,16 @@ export function CanvasRecorderComponent() {
     <Html>
       <div
         className={cns('recorder-button', {
-          'is-active': state.current.canvasRecorder?.isRecording,
+          'is-active': isRecording,
         })}
         onClick={handleRecording}
-      />
-      <div className={'screenshot-button'} onClick={handleScreenshot} />
+      >
+        <div className="recorder-button__border"></div>
+        <div className="recorder-button__inner"></div>
+      </div>
+      <div className={'screenshot-button'} onClick={handleScreenshot}>
+        <ScreenButtonSVG />
+      </div>
     </Html>
   )
 }
