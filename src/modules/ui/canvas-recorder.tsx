@@ -6,8 +6,12 @@ import { CanvasRecorder } from 'modules/utils/canvas-recorder'
 import { calcCoverOffset } from 'modules/utils/calc-cover-offset'
 import { Html } from '@react-three/drei'
 import ScreenButtonSVG from 'assets/screen-button.svg'
+import { useForceUpdate } from 'modules/hooks/force-update'
+import { RecorderDebugStats } from './recorder-debug-stats'
 
-type Sizes = {
+const DEBUG_RECORDER = false
+
+export type Sizes = {
   width: number
   height: number
   dpr: number
@@ -19,6 +23,7 @@ export function CanvasRecorderComponent() {
   const { gl: renderer } = useThree()
   const { arSource } = useAR()
   const [isRecording, setRecording] = useState(false)
+  const forceUpdate = useForceUpdate()
 
   const state = useRef({
     sizes: null as null | Sizes,
@@ -35,7 +40,9 @@ export function CanvasRecorderComponent() {
     const resultCanvas = document.createElement('canvas')
     resultCanvas.classList.add('recorder-canvas')
     document.body.appendChild(resultCanvas)
-    const resultCtx = resultCanvas.getContext('2d') as CanvasRenderingContext2D
+    const resultCtx = resultCanvas.getContext('2d', {
+      willReadFrequently: true,
+    }) as CanvasRenderingContext2D
 
     const canvasRecorder = new CanvasRecorder(resultCanvas)
 
@@ -46,7 +53,7 @@ export function CanvasRecorderComponent() {
     // Calculate sizes
     const initSizes = () => {
       // const dpr = window.devicePixelRatio || 1
-      const dpr = 1 // 1 for better video fps
+      const dpr = 1.2 // 1 for better video fps
       const width = window.innerWidth
       const height = window.innerHeight
       resultCanvas.width = width * dpr
@@ -72,6 +79,9 @@ export function CanvasRecorderComponent() {
         ),
       }
 
+      if (DEBUG_RECORDER) {
+        forceUpdate()
+      }
       state.current.sizes = sizes
     }
 
@@ -164,9 +174,15 @@ export function CanvasRecorderComponent() {
       canvasRecorder.stopRecording()
       clearResult()
       setRecording(false)
+      if (DEBUG_RECORDER) {
+        forceUpdate()
+      }
     } else {
       canvasRecorder.startRecording()
       setRecording(true)
+      if (DEBUG_RECORDER) {
+        forceUpdate()
+      }
     }
   }, [clearResult])
 
@@ -194,6 +210,14 @@ export function CanvasRecorderComponent() {
 
   return (
     <Html>
+      {DEBUG_RECORDER && state.current.sizes && state.current.resultCanvas && (
+        <RecorderDebugStats
+          arSource={arSource}
+          renderer={renderer}
+          sizes={state.current.sizes}
+          resultCanvas={state.current.resultCanvas}
+        />
+      )}
       <div
         className={cns('recorder-button', {
           'is-active': isRecording,
