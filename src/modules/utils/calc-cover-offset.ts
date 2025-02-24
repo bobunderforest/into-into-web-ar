@@ -22,7 +22,7 @@ export function calcCoverOffset(
     }
   } else {
     // compute newHeight and set .height/.marginTop
-    var newHeight = 1 / (sourceAspect / targetW)
+    const newHeight = targetW / sourceAspect
 
     return {
       width: targetW,

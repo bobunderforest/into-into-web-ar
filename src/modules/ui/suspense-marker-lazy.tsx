@@ -1,5 +1,6 @@
 import { useARMarker } from 'modules/arjs-react/ar-marker'
 import { Suspense, useEffect, useState } from 'react'
+import { LoadingAnimation } from './loading-animation'
 
 type Props = {
   fallback: React.ReactNode
@@ -16,5 +17,5 @@ export function SuspenseMarkerLazy({ fallback, children }: Props) {
 
   if (!wasFoundOnce) return
 
-  return <Suspense fallback={fallback}>{children}</Suspense>
+  return <Suspense fallback={<LoadingAnimation />}>{children}</Suspense>
 }
