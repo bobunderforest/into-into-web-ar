@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, RefObject } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
@@ -6,30 +6,42 @@ import { useARMarker } from 'modules/arjs-react/ar-marker'
 
 import { THREE } from 'modules/arjs-core/arjs-endpoint'
 import { BASE_URL } from 'modules/utils/app-config'
-// import { Sparks } from './sparks'
-import { GesturesControl } from './gestures-control'
+import { Sparks } from './sparks'
 import { deg2rad } from 'modules/utils/rad2deg'
 
 type Props = {
   path: string
+  onFoundLoad?: (object: THREE.Object3D) => void
+  onLost?: (object: THREE.Object3D) => void
 }
 
-export function Kastet({ path }: Props) {
+export function Kastet({ path, onFoundLoad, onLost }: Props) {
   const { isFound } = useARMarker()
   const [isDisplayed, setDisplayed] = useState(isFound)
+  const [isLoaded, setLoaded] = useState(false)
   const resetTimeout = useRef(-1)
   const gltf = useGLTF(`${BASE_URL}models/${path}`)
 
   const [mixer, animationAction] = useMemo(() => {
     const mixer = new THREE.AnimationMixer(gltf.scene)
     const action = mixer.clipAction(gltf.animations[0])
-    action.setLoop(THREE.LoopOnce, 1)
-    action.clampWhenFinished = true
-    action.enabled = true
     return [mixer, action]
   }, [gltf])
 
   useEffect(() => {
+    if (!animationAction) return
+    animationAction.setLoop(THREE.LoopOnce, 1)
+    animationAction.clampWhenFinished = true
+    animationAction.enabled = true
+
+    // Timeout to skip on-load fps drop
+    setTimeout(() => {
+      setLoaded(true)
+    }, 800)
+  }, [animationAction])
+
+  useEffect(() => {
+    if (!isLoaded) return
     if (resetTimeout.current !== -1) {
       clearTimeout(resetTimeout.current)
     }
@@ -45,10 +57,20 @@ export function Kastet({ path }: Props) {
       }, 1000) as any as number
       resetTimeout.current = timeout
     }
-  }, [isFound])
+  }, [isLoaded, isFound])
+
+  useEffect(() => {
+    if (gltf && isLoaded && isFound) {
+      onFoundLoad?.(gltf.scene)
+    } else if (gltf && isLoaded && !isFound) {
+      onLost?.(gltf.scene)
+    }
+  }, [gltf, onFoundLoad, onLost, isFound, isLoaded])
 
   useFrame((_, deltaTime) => {
-    mixer.update(deltaTime)
+    if (isLoaded) {
+      mixer.update(deltaTime)
+    }
   })
 
   /**
@@ -72,10 +94,11 @@ export function Kastet({ path }: Props) {
     }
   })
 
+  if (!isLoaded) return
+
   return (
     <>
-      <axesHelper />
-      {isDisplayed && <GesturesControl object={gltf.scene} />}
+      {/* <axesHelper /> */}
 
       <group rotation={[-deg2rad(25), 0, 0]} position={[0, 2, 0]}>
         <mesh castShadow>
@@ -96,7 +119,7 @@ export function Kastet({ path }: Props) {
             }}
           />
         </mesh>
-        {/* {isFound && <Sparks />} */}
+        {isDisplayed && <Sparks />}
       </group>
 
       <pointLight

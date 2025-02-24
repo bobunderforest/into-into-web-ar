@@ -1,3 +1,5 @@
+@use '../styles/variables.scss' as *;
+
 :root {
   --viewport-height: 0px;
 }
@@ -75,4 +77,27 @@ a {
 
 a {
   text-decoration: none;
+}
+
+.gestures-rotate-icon {
+  position: fixed;
+  top: 40px;
+  right: 30px;
+
+  svg {
+    display: block;
+  }
+
+  animation: 0.3s $easeOutBack enter-gestures-rotate-icon 1 both;
+}
+
+@keyframes enter-gestures-rotate-icon {
+  0% {
+    opacity: 0;
+    transform: scale(0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
 }
