@@ -3,7 +3,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { LoadingAnimation } from './loading-animation'
 
 type Props = {
-  fallback: React.ReactNode
+  fallback?: React.ReactNode
   children: React.ReactNode
 }
 
@@ -17,5 +17,7 @@ export function SuspenseMarkerLazy({ fallback, children }: Props) {
 
   if (!wasFoundOnce) return
 
-  return <Suspense fallback={<LoadingAnimation />}>{children}</Suspense>
+  return (
+    <Suspense fallback={fallback || <LoadingAnimation />}>{children}</Suspense>
+  )
 }

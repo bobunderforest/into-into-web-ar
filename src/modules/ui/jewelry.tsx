@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, RefObject } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
@@ -11,16 +11,26 @@ import { deg2rad } from 'modules/utils/rad2deg'
 
 type Props = {
   path: string
+  scale?: number
+  sparksDelay?: number
+  sparksPos?: [number, number, number]
   onFoundLoad?: (object: THREE.Object3D) => void
   onLost?: (object: THREE.Object3D) => void
 }
 
-export function Kastet({ path, onFoundLoad, onLost }: Props) {
+export function Jewelry({
+  path,
+  scale,
+  sparksDelay,
+  sparksPos,
+  onFoundLoad,
+  onLost,
+}: Props) {
   const { isFound } = useARMarker()
-  const [isDisplayed, setDisplayed] = useState(isFound)
+  const [isDisplayed, setDisplayed] = useState(false)
   const [isLoaded, setLoaded] = useState(false)
   const resetTimeout = useRef(-1)
-  const gltf = useGLTF(`${BASE_URL}models/${path}`)
+  const gltf = useGLTF(`${BASE_URL}models-o/${path}`)
 
   const [mixer, animationAction] = useMemo(() => {
     const mixer = new THREE.AnimationMixer(gltf.scene)
@@ -54,7 +64,7 @@ export function Kastet({ path, onFoundLoad, onLost }: Props) {
         animationAction.stop()
         animationAction.reset()
         resetTimeout.current = -1
-      }, 1000) as any as number
+      }, 600) as any as number
       resetTimeout.current = timeout
     }
   }, [isLoaded, isFound])
@@ -100,12 +110,12 @@ export function Kastet({ path, onFoundLoad, onLost }: Props) {
     <>
       {/* <axesHelper /> */}
 
-      <group rotation={[-deg2rad(25), 0, 0]} position={[0, 2, 0]}>
+      <group rotation={[-deg2rad(35), 0, 0]} position={[0, 1.6, 0]}>
         <mesh castShadow>
           <primitive
             castShadow
             object={gltf.scene}
-            scale={[0.015, 0.015, 0.015]}
+            scale={[scale, scale, scale]}
             onUpdate={(obj: any) => {
               obj.castShadow = true
               obj.traverse((child: any) => {
@@ -119,7 +129,9 @@ export function Kastet({ path, onFoundLoad, onLost }: Props) {
             }}
           />
         </mesh>
-        {isDisplayed && <Sparks />}
+        {isDisplayed && isLoaded && sparksDelay && sparksPos && (
+          <Sparks sparksPos={sparksPos} delay={sparksDelay} />
+        )}
       </group>
 
       <pointLight

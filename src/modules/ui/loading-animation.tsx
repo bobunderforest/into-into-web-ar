@@ -30,7 +30,7 @@ export const LoadingAnimation = () => {
     <group position={[0, 1.2, 0]}>
       <mesh ref={sphereRef}>
         <sphereGeometry args={[0.8, 32, 32]} />
-        <meshStandardMaterial opacity={0} color="#6677ff" />
+        <meshStandardMaterial opacity={0} color="#99ddff" />
       </mesh>
     </group>
   )

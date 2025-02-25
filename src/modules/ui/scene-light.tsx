@@ -11,11 +11,11 @@ export function SceneLight() {
           key={i}
           position={coord}
           color={0xffffff}
-          intensity={565}
+          intensity={1}
           distance={155}
         />
       ))}
-      <hemisphereLight color={0xffffff} groundColor={0xffffff} intensity={15} />
+      {/* <hemisphereLight color={0xffffff} groundColor={0xffffff} intensity={15} /> */}
     </>
   )
 }
