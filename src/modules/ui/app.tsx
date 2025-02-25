@@ -11,6 +11,10 @@ import { Environment } from '@react-three/drei'
 import { BASE_URL } from 'modules/utils/app-config'
 
 export function App() {
+  const preload = useMemo(() => {
+    return Number(new URLSearchParams(location.search).get('preload'))
+  }, [])
+
   const [controlledModel, setControlledModel] = useState<THREE.Object3D | null>(
     null,
   )
@@ -29,7 +33,7 @@ export function App() {
 
       {/* Kastet */}
       <ARMarker type={'barcode'} barcodeValue={1}>
-        <SuspenseMarkerLazy>
+        <SuspenseMarkerLazy isPreloaded={preload === 1}>
           <Jewelry
             path={'kastet.gltf'}
             scale={1.2}
@@ -43,7 +47,7 @@ export function App() {
 
       {/* Ring */}
       <ARMarker type={'barcode'} barcodeValue={2}>
-        <SuspenseMarkerLazy>
+        <SuspenseMarkerLazy isPreloaded={preload === 2}>
           <Jewelry
             path={'ring.gltf'}
             scale={3}
@@ -57,7 +61,7 @@ export function App() {
 
       {/* Ring */}
       <ARMarker type={'barcode'} barcodeValue={3}>
-        <SuspenseMarkerLazy>
+        <SuspenseMarkerLazy isPreloaded={preload === 3}>
           <Jewelry
             path={'neckle.gltf'}
             scale={0.8}
@@ -69,7 +73,7 @@ export function App() {
 
       {/* Sphere */}
       <ARMarker type={'barcode'} barcodeValue={4}>
-        <SuspenseMarkerLazy>
+        <SuspenseMarkerLazy isPreloaded={preload === 4}>
           <Jewelry
             path={'sphere.gltf'}
             scale={1.8}
@@ -83,7 +87,7 @@ export function App() {
 
       {/* Earing */}
       <ARMarker type={'barcode'} barcodeValue={5}>
-        <SuspenseMarkerLazy>
+        <SuspenseMarkerLazy isPreloaded={preload === 5}>
           <Jewelry
             path={'earing.gltf'}
             scale={2}
