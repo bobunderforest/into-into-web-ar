@@ -30,7 +30,7 @@ export function Jewelry({
   const [isDisplayed, setDisplayed] = useState(false)
   const [isLoaded, setLoaded] = useState(false)
   const resetTimeout = useRef(-1)
-  const gltf = useGLTF(`${BASE_URL}models-o/${path}`)
+  const gltf = useGLTF(`${BASE_URL}models/${path}`)
 
   const [mixer, animationAction] = useMemo(() => {
     const mixer = new THREE.AnimationMixer(gltf.scene)

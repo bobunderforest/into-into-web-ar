@@ -25,7 +25,7 @@ export function App() {
   return (
     <AppRoot>
       <SceneLight />
-      <Environment files={`${BASE_URL}/textures/dancing_hall_1k.exr`} />
+      <Environment files={`${BASE_URL}textures/dancing_hall_1k.exr`} />
 
       {/* Kastet */}
       <ARMarker type={'barcode'} barcodeValue={1}>
