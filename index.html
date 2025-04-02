@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="HandheldFriendly" content="true" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <title>Into Into</title>
+    <meta name="description" content="" />
+
+    <script>
+      function setViewportHeight() {
+        const windowHeight = window.innerHeight
+        document.documentElement.style.setProperty(
+          '--viewport-height',
+          `${windowHeight}px`,
+        )
+      }
+      setViewportHeight()
+      window.addEventListener('resize', setViewportHeight)
+    </script>
+  </head>
+  <body>
+    <div class="app-wrapper" id="app"></div>
+    <script type="module" src="./src/modules/index-arjs.tsx"></script>
+  </body>
+</html>

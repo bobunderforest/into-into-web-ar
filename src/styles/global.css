@@ -1,35 +1,25 @@
-@use '../styles/variables.scss' as *;
-
 :root {
   --viewport-height: 0px;
 }
-
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   box-sizing: inherit;
 }
-
-
 html {
   width: 100vw;
   max-width: 100vw;
   height: var(--viewport-height);
   box-sizing: border-box;
   overflow: hidden;
-
-  &.html--slides {
-    height: var(--viewport-height);
-    overflow: hidden;
-
-    body {
-      height: var(--viewport-height);
-      overflow: auto;
-      background-color: #000;
-    }
-  }
 }
-
+html.html--slides {
+  height: var(--viewport-height);
+  overflow: hidden;
+}
+html.html--slides body {
+  height: var(--viewport-height);
+  overflow: auto;
+  background-color: #000;
+}
 body {
   width: 100vw;
   max-width: 100vw;
@@ -37,67 +27,43 @@ body {
   margin: 0px;
   padding: 0px;
   overflow: hidden;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 .threejs-canvas-wrapper-outside {
   position: fixed;
   top: 0;
   left: 0;
 }
-
 button {
   touch-action: manipulation;
 }
-
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-ol,
-ul {
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
   margin: 0;
   padding: 0;
 }
-
-input,
-textarea,
-button,
-select,
-label,
-a {
+input, textarea, button, select, label, a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 a {
   text-decoration: none;
 }
-
 .gestures-rotate-icon {
   position: fixed;
   top: 40px;
   right: 30px;
-
-  svg {
-    display: block;
-  }
-
-  animation: 0.3s $easeOutBack enter-gestures-rotate-icon 1 both;
+  animation: 0.3s var(--ease-out-back) enter-gestures-rotate-icon 1 both;
 }
-
+.gestures-rotate-icon svg {
+  display: block;
+}
 @keyframes enter-gestures-rotate-icon {
   0% {
     opacity: 0;
     transform: scale(0, 0);
-  }
+ }
   100% {
     opacity: 1;
     transform: scale(1, 1);
-  }
+ }
 }

@@ -1,1 +1,1 @@
-export const BASE_URL = String(process.env.BASE_URL)
+export const BASE_URL = String((import.meta as any).env.BASE_URL)

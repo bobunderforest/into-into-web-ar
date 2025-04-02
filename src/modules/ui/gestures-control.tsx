@@ -1,7 +1,7 @@
 import type * as THREE from 'three'
 import { useGesturesControl } from 'modules/hooks/use-gestures-control'
 import { Html } from '@react-three/drei'
-import RotateIconSVG from 'assets/rotate-icon.svg'
+import RotateIconSVG from 'assets/rotate-icon.svg?react'
 
 type Props = {
   object?: THREE.Object3D | null

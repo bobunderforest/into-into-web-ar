@@ -21,12 +21,7 @@ export class GestureHandler {
 
     // Merge default options
     this.options = Object.assign(
-      {
-        enabled: true,
-        rotationFactor: 5,
-        minScale: 0.3,
-        maxScale: 8,
-      },
+      { enabled: true, rotationFactor: 5, minScale: 0.3, maxScale: 8 },
       options,
     )
 
@@ -93,7 +88,7 @@ export class GestureHandler {
       detail.positionChange.y * this.options.rotationFactor
   }
 
-  handleScale = (event) => {
+  handleScale = (event: any) => {
     if (!this.isVisible) return
 
     const detail = event.detail

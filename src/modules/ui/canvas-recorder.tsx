@@ -5,7 +5,7 @@ import { useAR } from 'modules/arjs-react/ar-context'
 import { CanvasRecorder } from 'modules/utils/canvas-recorder'
 import { calcCoverOffset } from 'modules/utils/calc-cover-offset'
 import { Html } from '@react-three/drei'
-import ScreenButtonSVG from 'assets/screen-button.svg'
+import ScreenButtonSVG from 'assets/screen-button.svg?react'
 import { useForceUpdate } from 'modules/hooks/force-update'
 import { RecorderDebugStats } from './recorder-debug-stats'
 
@@ -103,7 +103,7 @@ export function CanvasRecorderComponent() {
     }, 0)
   }, [])
 
-  useFrame((_, deltaTime) => {
+  useFrame((_) => {
     const { takeScreenshot, canvasRecorder, resultCanvas, resultCtx, sizes } =
       state.current
 
