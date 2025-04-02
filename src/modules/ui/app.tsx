@@ -61,7 +61,7 @@ export function App() {
         </SuspenseMarkerLazy>
       </ARMarker>
 
-      {/* Ring */}
+      {/* Neckle */}
       <ARMarker type={'barcode'} barcodeValue={3}>
         <SuspenseMarkerLazy isPreloaded={preload === 3}>
           <Jewelry
