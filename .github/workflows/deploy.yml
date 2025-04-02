@@ -20,14 +20,14 @@ jobs:
         with:
           node-version: 23
 
-      - name: Activate yarn
+      - name: Activate pnpm
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
-        run: yarn build
+        run: pnpm build
         env:
           BASE_URL: ${{ vars.BASE_URL }}
 
