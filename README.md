@@ -3,7 +3,7 @@
 
 ### Credits
 
-- Jewlery: [in2into](https://www.instagram.com/in2into/)
+- Jewelry: [in2into](https://www.instagram.com/in2into/)
 - Team: [Arcanum Works](https://arcanum.works/)
 - Art Direction: [Arden Vald](https://www.instagram.com/arden.vald/)
 - 3D Models: [Ilia Poletaev](https://www.instagram.com/ilia_spark/)
