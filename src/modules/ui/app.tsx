@@ -36,7 +36,8 @@ export function App() {
         <SuspenseMarkerLazy isPreloaded={preload === 1}>
           <Jewelry
             path={'kastet.gltf'}
-            scale={1.2}
+            scale={3}
+            lift={3}
             sparksDelay={2.2}
             sparksPos={useMemo(() => [0, 0, 0], [])}
             onFoundLoad={setControlledModel}
@@ -50,9 +51,10 @@ export function App() {
         <SuspenseMarkerLazy isPreloaded={preload === 2}>
           <Jewelry
             path={'ring.gltf'}
-            scale={3}
+            scale={6}
+            lift={1.6}
             sparksDelay={2.6}
-            sparksPos={useMemo(() => [0, 1.2, 0], [])}
+            sparksPos={useMemo(() => [0, 2.2, 0.2], [])}
             onFoundLoad={setControlledModel}
             onLost={handleLost}
           />
@@ -64,7 +66,8 @@ export function App() {
         <SuspenseMarkerLazy isPreloaded={preload === 3}>
           <Jewelry
             path={'neckle.gltf'}
-            scale={0.8}
+            scale={1.6}
+            lift={3}
             onFoundLoad={setControlledModel}
             onLost={handleLost}
           />
@@ -76,7 +79,8 @@ export function App() {
         <SuspenseMarkerLazy isPreloaded={preload === 4}>
           <Jewelry
             path={'sphere.gltf'}
-            scale={1.8}
+            scale={2.8}
+            lift={3}
             sparksDelay={1.6}
             sparksPos={useMemo(() => [0, 0, 0], [])}
             onFoundLoad={setControlledModel}
@@ -90,7 +94,8 @@ export function App() {
         <SuspenseMarkerLazy isPreloaded={preload === 5}>
           <Jewelry
             path={'earing.gltf'}
-            scale={2}
+            scale={4.2}
+            lift={3}
             onFoundLoad={setControlledModel}
             onLost={handleLost}
           />

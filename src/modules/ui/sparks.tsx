@@ -33,7 +33,7 @@ export const Sparks = ({
       // Random spherical velocity
       const theta = Math.random() * Math.PI * 2
       const phi = Math.random() * Math.PI
-      const speed = 1 + Math.random() * 20 // adjust speed as needed
+      const speed = 1 + Math.random() * 30 // adjust speed as needed
 
       vel[i * 3 + 0] = speed * Math.sin(phi) * Math.cos(theta)
       vel[i * 3 + 1] = speed * Math.cos(phi)
@@ -89,24 +89,27 @@ export const Sparks = ({
       {Array.from({ length: count }, (_, i) => (
         <Trail
           key={i}
-          width={1}
-          length={0.5}
+          width={1.8}
+          length={0.8}
           decay={1.5}
           color="rgba(230, 255, 230, 1)"
-          attenuation={(t: number) =>
-            t *
-            t *
-            Math.max(
-              Math.min(1 - (elapsedRef.current - delay) / duration, 1),
-              0,
+          attenuation={(t: number) => {
+            if (elapsedRef.current < delay) return 0
+            return (
+              t *
+              t *
+              Math.max(
+                Math.min(1 - (elapsedRef.current - delay) / duration, 1),
+                0,
+              )
             )
-          }
+          }}
         >
           <mesh ref={(el) => (sparkRefs.current[i] = el)}>
             <sphereGeometry args={[0.001, 8, 8]} />
             <meshBasicMaterial
               // map={texture}
-              color="rgba(230, 255, 230, 0.8)"
+              color="rgb(230, 255, 230)"
               transparent
               opacity={1}
               blending={THREE.AdditiveBlending}

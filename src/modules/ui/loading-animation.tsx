@@ -27,9 +27,9 @@ export const LoadingAnimation = () => {
   })
 
   return (
-    <group position={[0, 1.2, 0]}>
+    <group position={[0, 2.4, 0]}>
       <mesh ref={sphereRef}>
-        <sphereGeometry args={[0.8, 32, 32]} />
+        <sphereGeometry args={[1.6, 32, 32]} />
         <meshStandardMaterial opacity={0} color="#99ddff" />
       </mesh>
     </group>

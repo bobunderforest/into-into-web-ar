@@ -11,6 +11,7 @@ import { deg2rad } from 'modules/utils/rad2deg'
 
 type Props = {
   path: string
+  lift: number
   scale?: number
   sparksDelay?: number
   sparksPos?: [number, number, number]
@@ -21,6 +22,7 @@ type Props = {
 export function Jewelry({
   path,
   scale,
+  lift,
   sparksDelay,
   sparksPos,
   onFoundLoad,
@@ -110,7 +112,7 @@ export function Jewelry({
     <>
       {/* <axesHelper /> */}
 
-      <group rotation={[-deg2rad(35), 0, 0]} position={[0, 1.6, 0]}>
+      <group rotation={[-deg2rad(40), 0, 0]} position={[0, lift, 0]}>
         <mesh castShadow>
           <primitive
             castShadow
@@ -135,19 +137,19 @@ export function Jewelry({
       </group>
 
       <pointLight
-        position={[0, 10, 1]}
+        position={[0, 20, 1]}
         color={0xffffff}
         intensity={100}
-        distance={20}
+        distance={40}
         castShadow
-        shadow-mapSize-height={2048}
-        shadow-mapSize-width={2048}
-        shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
+        shadow-mapSize-height={1024}
+        shadow-mapSize-width={1024}
+        shadow-camera-left={-40}
+        shadow-camera-right={40}
+        shadow-camera-top={40}
+        shadow-camera-bottom={-40}
         shadow-camera-near={0.01}
-        shadow-camera-far={10}
+        shadow-camera-far={40}
         shadow-bias={-0}
       />
 
@@ -158,7 +160,7 @@ export function Jewelry({
         rotation={[deg2rad(-90), 0, 0]}
         position={[0, 0, 0]}
       >
-        <planeGeometry args={[6, 6]} />
+        <planeGeometry args={[20, 20]} />
         <shadowMaterial opacity={0.3} />
       </mesh>
     </>
